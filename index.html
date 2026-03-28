@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MyBite — Food tracking from a photo</title>
+    <meta name="description" content="Snap your food. MyBite shows calories and macros." />
+    <meta name="theme-color" content="#1c2538" />
+    <link rel="icon" type="image/png" href="assets/mybite-logo.png" />
+    <link rel="apple-touch-icon" href="assets/mybite-logo.png" />
+    <meta property="og:title" content="MyBite — Food tracking from a photo" />
+    <meta property="og:description" content="Snap your food. MyBite shows calories and macros." />
+    <meta property="og:image" content="assets/mybite-logo.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="assets/mybite-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #0a0a0a;
+        --muted: #5c5c5c;
+        --border: #ebebeb;
+        --brand-navy: #1c2538;
+        --radius-pill: 999px;
+        --radius-btn: 12px;
+        --shadow-soft: 0 24px 64px rgba(0, 0, 0, 0.08);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* Nav */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 72px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 1.125rem;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 22%;
+        overflow: hidden;
+        flex-shrink: 0;
+        box-shadow: 0 1px 3px rgba(28, 37, 56, 0.12);
+      }
+
+      .brand-mark img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
+
+      .footer-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 22%;
+        overflow: hidden;
+        margin: 0 auto 14px;
+        box-shadow: 0 2px 8px rgba(28, 37, 56, 0.1);
+      }
+
+      .footer-logo img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
+
+      .nav-links {
+        display: none;
+        align-items: center;
+        gap: 28px;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        color: var(--text);
+      }
+
+      .nav-links a {
+        opacity: 0.85;
+        transition: opacity 0.15s;
+      }
+
+      .nav-links a:hover {
+        opacity: 1;
+      }
+
+      .nav-cta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+
+      .btn-store {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: var(--radius-btn);
+        background: var(--brand-navy);
+        color: #fff;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: transform 0.15s, opacity 0.15s;
+      }
+
+      .btn-store:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+      }
+
+      .btn-store svg {
+        flex-shrink: 0;
+      }
+
+      .btn-store--ghost {
+        display: none;
+        background: #fff;
+        color: var(--brand-navy);
+        border: 1.5px solid var(--brand-navy);
+      }
+
+      @media (min-width: 900px) {
+        .nav-links {
+          display: flex;
+        }
+
+        .btn-store--ghost {
+          display: inline-flex;
+        }
+      }
+
+      @media (max-width: 599px) {
+        .nav-cta .btn-store span {
+          display: none;
+        }
+
+        .nav-cta .btn-store {
+          padding: 10px 12px;
+        }
+      }
+
+      /* Hero */
+      .hero {
+        padding: 40px 0 72px;
+        background: linear-gradient(180deg, #f4f5f8 0%, #fff 55%);
+      }
+
+      .hero-grid {
+        display: grid;
+        gap: 40px;
+        align-items: center;
+      }
+
+      @media (min-width: 960px) {
+        .hero-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 48px;
+          align-items: center;
+        }
+
+        .hero-copy {
+          order: 2;
+        }
+
+        .hero-visual {
+          order: 1;
+        }
+      }
+
+      .hero-eyebrow {
+        margin: 0 0 16px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--brand-navy);
+        opacity: 0.85;
+      }
+
+      .hero h1 {
+        margin: 0 0 16px;
+        font-size: clamp(2rem, 4.5vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.12;
+        max-width: 22ch;
+      }
+
+      .hero-lead {
+        margin: 0 0 28px;
+        font-size: 1rem;
+        line-height: 1.55;
+        color: var(--muted);
+        max-width: 28rem;
+      }
+
+      .hero-cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .hero-cta-row .btn-store {
+        padding: 14px 20px;
+        font-size: 0.875rem;
+      }
+
+      /* Mockups */
+      .hero-visual {
+        margin: 0 -8px;
+      }
+
+      @media (min-width: 960px) {
+        .hero-visual {
+          margin: 0;
+        }
+      }
+
+      .mockups {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: clamp(12px, 3vw, 28px);
+        padding: 28px 20px 32px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: 0 1px 0 rgba(28, 37, 56, 0.04);
+      }
+
+      .mockup {
+        flex: 1;
+        max-width: 260px;
+        border-radius: 20px;
+        box-shadow: 0 16px 40px rgba(28, 37, 56, 0.1);
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .mockup--tilt {
+        transform: rotate(-2deg);
+      }
+
+      .mockup--tilt-right {
+        transform: rotate(2deg);
+      }
+
+      .mockup-connector {
+        flex-shrink: 0;
+        align-self: center;
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: var(--brand-navy);
+        opacity: 0.35;
+        line-height: 1;
+        padding-bottom: 2rem;
+      }
+
+      @media (max-width: 599px) {
+        .mockup {
+          max-width: 40vw;
+        }
+
+        .mockup-connector {
+          font-size: 1.25rem;
+          padding-bottom: 1.5rem;
+        }
+      }
+
+      /* Footer */
+      .footer {
+        border-top: 1px solid var(--border);
+        padding: 32px 0;
+        font-size: 0.875rem;
+        color: var(--muted);
+        text-align: center;
+      }
+
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="wrap nav-inner">
+        <a href="#top" class="brand" aria-label="MyBite home">
+          <span class="brand-mark">
+            <img src="assets/mybite-logo.png" width="72" height="72" alt="" decoding="async" />
+          </span>
+          MyBite
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#top">Home</a>
+          <a href="#download">Download</a>
+        </nav>
+        <div class="nav-cta">
+          <a class="btn-store" href="#download" aria-label="Download on the App Store">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            <span>App Store</span>
+          </a>
+          <a class="btn-store btn-store--ghost" href="#download" aria-label="Get it on Google Play">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M3.6 20.4v-17l10.93 8.5L3.6 20.4zm12.4-8.9l3.4-1.9c.6-.33.6-1.17 0-1.5l-3.4-1.9-2.5 2.65 2.5 2.65zM17 12l3.6 2.05c.6.34.6 1.18 0 1.52L17 17.6l-2.6-2.8L17 12zM16.4 3.4L3.6 12l2.5 1.95L16.4 3.4z" />
+            </svg>
+            <span>Google Play</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <p class="hero-eyebrow">Calories &amp; macros</p>
+            <h1>Track food with a photo.</h1>
+            <p class="hero-lead">
+              Take a picture. MyBite shows calories and macros—no long forms.
+            </p>
+            <div class="hero-cta-row" id="download">
+              <a class="btn-store" href="#" aria-label="Download on the App Store">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                </svg>
+                <span>Download on the App Store</span>
+              </a>
+              <a class="btn-store" href="#" aria-label="Get it on Google Play">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M3.6 20.4v-17l10.93 8.5L3.6 20.4zm12.4-8.9l3.4-1.9c.6-.33.6-1.17 0-1.5l-3.4-1.9-2.5 2.65 2.5 2.65zM17 12l3.6 2.05c.6.34.6 1.18 0 1.52L17 17.6l-2.6-2.8L17 12zM16.4 3.4L3.6 12l2.5 1.95L16.4 3.4z" />
+                </svg>
+                <span>Get it on Google Play</span>
+              </a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="mockups" aria-hidden="true">
+              <img
+                class="mockup mockup--tilt"
+                src="assets/hero-take-pic.png"
+                alt=""
+                width="600"
+                height="1200"
+                loading="eager"
+                decoding="async"
+              />
+              <span class="mockup-connector" aria-hidden="true">+</span>
+              <img
+                class="mockup mockup--tilt-right"
+                src="assets/hero-dashboard.png"
+                alt=""
+                width="600"
+                height="1200"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div class="footer-logo" aria-hidden="true">
+          <img src="assets/mybite-logo.png" width="96" height="96" alt="" decoding="async" />
+        </div>
+        <p>&copy; <span id="y"></span> MyBite. All rights reserved.</p>
+      </div>
+    </footer>
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
